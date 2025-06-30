@@ -1,10 +1,10 @@
-import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from glob import glob
 
 class DriftPreprocessing:
-    def __init__(self, base_path):
+    def __init__(self, base_path = "dataset"):
         self.base_path = base_path
         self.fields = [
             "Time", "Ankle_X", "Ankle_Y", "Ankle_Z",
@@ -52,23 +52,17 @@ class DriftPreprocessing:
         return subject
 
     def fetch_and_process_subjects(self):
-        """Fetch subjects from files and filter by annotation."""
+        """Fetch subjects using glob and filter by annotation."""
         print("Fetching subjects...")
-        for file in os.listdir(self.base_path):
-            if file.endswith(".txt"):
-                name = file.split(".txt")[0]
-                print(f"Processing {name}...")
-                df = pd.read_csv(
-                    os.path.join(self.base_path, file),
-                    delimiter=r'\s+',
-                    header=None
-                )
-                df.columns = self.fields
-                df = df[df["Annotations"] != 0].reset_index(drop=True)
-                self.subjects[name] = df
-                self.subjects_list.append(name)
+        for file_path in sorted(glob(f"{self.base_path}/*")):
+            name = file_path.split("\\")[1].split(".")[0]
+            print(f"Processing {name}...")
+            df = pd.read_csv(file_path, delimiter=r'\s+', header=None)
+            df.columns = self.fields
+            df = df[df["Annotations"] != 0].reset_index(drop=True)
+            self.subjects[name] = df
+            self.subjects_list.append(name)
 
-        self.subjects_list.sort()
         print("All subjects fetched and filtered.")
 
     def process_subjects(self):
