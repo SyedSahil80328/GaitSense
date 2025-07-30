@@ -2,11 +2,6 @@ import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 
-class Formatter:
-    def return_formatted_string(self, string, symbol = '-'):
-        decrator = symbol * ((200 - len(string))//2 + 1) if len(string)&1 else symbol * ((200 - len(string))//2)
-        return f"{decrator} {string} {decrator}"
-
 class DatasetProcessor:
     def __init__(self, fields, paths, names):
         self.__columns = fields
