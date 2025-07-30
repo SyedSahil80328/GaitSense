@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
+from utilities import Formatter
 
 class DatasetProcessor:
     def __init__(self, fields, paths, names):
