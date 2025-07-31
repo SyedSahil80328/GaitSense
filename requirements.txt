@@ -1,5 +1,5 @@
 Rbeast
-river
+river==0.11.0
 tsai
 numpy==1.26.4
 pandas==2.2.2
